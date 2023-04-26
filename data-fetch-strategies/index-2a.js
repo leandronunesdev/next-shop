@@ -1,17 +1,16 @@
+// Option 2a: fetch products on the client side (in useEffect)
+// directly from an external API
 import Title from '@/components/Title';
 import { getProducts } from '@/lib/products';
 import Head from 'next/head';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-export async function getStaticProps() {
-  console.log('[HomePage] getStaticProps');
-  const products = await getProducts();
-  return {
-    props: { products },
-  };
-}
+function HomePage() {
+  const [products, setProducts] = useState([]);
 
-function HomePage({ products }) {
+  useEffect(() => {
+    getProducts().then(setProducts);
+  }, []);
   console.log('[HomePage] render:', products);
   return (
     <>
@@ -22,11 +21,7 @@ function HomePage({ products }) {
         <Title>Next Shop</Title>
         <ul>
           {products.map((product) => {
-            return (
-              <li key={product.id}>
-                <Link href={`/products/${product.id}`}>{product.title}</Link>
-              </li>
-            );
+            return <li key={product.id}>{product.title}</li>;
           })}
         </ul>
       </main>
