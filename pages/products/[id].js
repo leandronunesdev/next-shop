@@ -3,6 +3,7 @@ import { getProduct, getProducts } from '@/lib/products';
 import Image from 'next/image';
 import Page from '@/components/Page';
 import { useUser } from '@/hooks/user';
+import AddToCartWidget from '@/components/AddToCartWidget';
 
 export async function getStaticPaths() {
   const products = await getProducts();
@@ -42,7 +43,7 @@ function ProductPage({ product }) {
         <div className='flex-1 lg:ml-4'>
           <p className='text-sm'>{product.description}</p>
           <p className='text-lg font-bold mt-2'>{product.price}</p>
-          <p>Only for {user.name}!</p>
+          {user && <AddToCartWidget productId={product.id} />}
         </div>
       </div>
     </Page>
