@@ -1,7 +1,12 @@
+import { useSignOut, useUser } from '@/hooks/user';
 import Link from 'next/link';
 
 function NavBar() {
-  const user = { name: 'Alice' };
+  const user = useUser();
+  const signOut = useSignOut();
+
+  console.log('[Navbar] user:', user);
+
   return (
     <nav className='px-2 py-1'>
       <ul className='flex gap-2'>
@@ -13,7 +18,7 @@ function NavBar() {
           <>
             <li>{user.name}</li>
             <li>
-              <button>Sign Out</button>
+              <button onClick={signOut}>Sign Out</button>
             </li>
           </>
         ) : (

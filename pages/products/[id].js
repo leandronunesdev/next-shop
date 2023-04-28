@@ -2,6 +2,7 @@ import { ApiError } from '@/lib/api';
 import { getProduct, getProducts } from '@/lib/products';
 import Image from 'next/image';
 import Page from '@/components/Page';
+import { useUser } from '@/hooks/user';
 
 export async function getStaticPaths() {
   const products = await getProducts();
@@ -29,6 +30,8 @@ export async function getStaticProps({ params: { id } }) {
 }
 
 function ProductPage({ product }) {
+  const user = useUser();
+
   console.log('[ProductPage] render:', product);
   return (
     <Page title={product.title}>
@@ -39,6 +42,7 @@ function ProductPage({ product }) {
         <div className='flex-1 lg:ml-4'>
           <p className='text-sm'>{product.description}</p>
           <p className='text-lg font-bold mt-2'>{product.price}</p>
+          <p>Only for {user.name}!</p>
         </div>
       </div>
     </Page>
